@@ -1,21 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" :class="{ 'login-page': !isLoggedIn }">
+    <div v-if="isLoggedIn" class="navbar">
+      <the-menu class="menu" :menuTitle="menuTitle" :menuItems="menuItems" />
+      <b-icon-person-circle class="person-icon"/>
+    </div>
+    <router-view />
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheMenu from "./components/TheMenu.vue";
 
 export default {
-  name: 'App',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    TheMenu,
+  },
+  data() {
+    return {
+      menuTitle: "訂單管理",
+    };
+  },
+  computed:{
+    isLoggedIn(){
+      return this.$store.getters.getLoginStatus;
+    },
+    menuItems(){
+      return this.$store.getters.getMenu;
+    }
+  },
+};
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -23,6 +37,38 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#app.login-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6fdff !important;
+  height: 100vh;
+}
+
+#app .navbar{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  background-color: rgb(230, 247, 253);
+}
+
+#app .navbar .person-icon{
+  font-size: 3rem;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

@@ -1,0 +1,101 @@
+<template>
+  <div class="login">
+    <div class="login-card">
+      <p class="login-title">登入</p>
+      <form class="login-form" @submit.prevent="handleFormSubmit">
+        <input placeholder="輸入帳號" type="username" v-model="username" />
+        <input placeholder="輸入密碼" type="password" v-model="password" />
+        <div class="login-button-div">
+          <button type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Login",
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    handleFormSubmit() {
+      if (
+        this.username === "andywan40@gmail.com" &&
+        this.password === "12345"
+      ) {
+        this.$router.push({name: "Home"});
+        this.$store.commit("setLoginStatus", true);
+        this.$store.commit("setMenu", [
+          { text: "訂單查詢", link: "/cartproject/orderquery" },
+          { text: "新增訂單", link: "/cartproject/createorder" },
+        ]);
+      } else {
+        alert("帳號或密碼錯誤！");
+      }
+      this.username = "";
+      this.password = "";
+    },
+  },
+  created(){
+    this.$store.commit("setLoginStatus", false);
+  }
+};
+</script>
+<style>
+.login {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(250, 246, 242);
+}
+
+.login-card {
+  border: 1px solid black;
+  border-radius: 6px;
+  width: 50vw;
+  height: 50vh;
+}
+
+.login-title {
+  text-align: left;
+  padding-left: 0.4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: rgb(228, 228, 225);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login input {
+  border: 1px solid black;
+  margin-top: 1rem;
+  border-radius: 3px;
+  min-width: 70%;
+  min-height: 40px;
+}
+
+.login-button-div {
+  min-width: 70%;
+}
+
+/* TODO */
+.login button {
+  margin-top: 2.5rem;
+  border-radius: 5px;
+  background-color: rgb(56, 56, 56);
+  color: #fff;
+  width: 30%;
+  height: 55px;
+}
+</style>
