@@ -92,11 +92,12 @@ export default {
   align-items: center;
   justify-content: flex-start;
   width: 10%;
+  cursor: pointer;
 }
 
 .orderstatuscard .div-3 .chevron-right-icon{
   font-size: 1.5rem;
-  cursor: pointer;
+  
 }
 
 .orderstatuscard .div-2 .span-div {
