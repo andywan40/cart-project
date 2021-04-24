@@ -3,16 +3,21 @@ import {
   BootstrapVue,
   BIconPersonCircle,
   BIconChevronRight,
+  BIconPlusCircleFill
 } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import store from "./store/store";
 import App from "./App.vue";
 import router from "./router";
+import "tabulator-tables/dist/css/tabulator.min.css";
 
 Vue.use(BootstrapVue);
 Vue.component("BIconPersonCircle", BIconPersonCircle);
 Vue.component("BIconChevronRight", BIconChevronRight);
+Vue.component("BIconPlusCircleFill", BIconPlusCircleFill);
+
+
 
 Vue.config.productionTip = false;
 

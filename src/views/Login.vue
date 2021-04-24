@@ -20,6 +20,48 @@ export default {
     return {
       username: "",
       password: "",
+      menu: [
+        { text: "訂單查詢", link: "/cartproject/orderquery" },
+        { text: "新增訂單", link: "/cartproject/createorder" },
+      ],
+      orders: [
+        {
+          name: "Livi優活 抽取式衛生紙(100抽x10包x10串/箱)",
+          logo: "https://static.oopocket.com/store/iconTreemall@3x.png",
+          status: {
+            code: 3,
+            type: "已取消",
+          },
+          date: "107/6/12",
+        },
+        {
+          name: "BALMUDA The Toaster 百慕達烤麵包機-黑色",
+          logo: "https://static.oopocket.com/store/iconTreemall@3x.png",
+          status: {
+            code: 2,
+            type: "已成立",
+          },
+          date: "108/7/21",
+        },
+        {
+          name: "贈-短慧萬用鍋HD2133+三合一濾網「LG樂金」韓國原裝...",
+          logo: "https://static.oopocket.com/store/iconTreemall@3x.png",
+          status: {
+            code: 1,
+            type: "處理中",
+          },
+          date: "108/6/2",
+        },
+        {
+          name: "Apple AirPds 2",
+          logo: "https://static.oopocket.com/store/iconTreemall@3x.png",
+          status: {
+            code: 4,
+            type: "已送達",
+          },
+          date: "108/3/02",
+        },
+      ],
     };
   },
   methods: {
@@ -30,10 +72,8 @@ export default {
       ) {
         this.$router.push({ name: "Home" });
         this.$store.commit("setLoginStatus", true);
-        this.$store.commit("setMenu", [
-          { text: "訂單查詢", link: "/cartproject/orderquery" },
-          { text: "新增訂單", link: "/cartproject/createorder" },
-        ]);
+        this.$store.commit("setMenu", this.menu);
+        this.$store.commit("setOrders", this.orders);
       } else {
         alert("帳號或密碼錯誤！");
       }
