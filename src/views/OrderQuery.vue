@@ -13,7 +13,7 @@
       <b-card-group v-if="showInProgress" class="card-group">
         <b-card no-body :header="header1">
           <b-list-group flush>
-            <b-list-group-item v-for="(item, i) in inProgressItems" :key="i">
+            <b-list-group-item v-for="item in inProgressItems" :key="item.id">
               <order-status-card :item="item" status="inprogress" />
             </b-list-group-item>
           </b-list-group>
@@ -22,7 +22,7 @@
       <b-card-group v-if="showCompleted" class="card-group">
         <b-card no-body :header="header2">
           <b-list-group flush>
-            <b-list-group-item v-for="(item, i) in completedItems" :key="i">
+            <b-list-group-item v-for="item in completedItems" :key="item.id">
               <order-status-card :item="item" status="completed" />
             </b-list-group-item>
           </b-list-group>
@@ -67,6 +67,11 @@ export default {
           items.push(order);
         }
       });
+      items.sort((a, b) => {
+          let aDate = new Date(a.date);
+          let bDate = new Date(b.date);
+          return bDate - aDate;
+      })
       return items;
     },
     completedItems() {

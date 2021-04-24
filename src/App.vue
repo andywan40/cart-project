@@ -2,7 +2,7 @@
   <div id="app" :class="{ 'login-page': !isLoggedIn }">
     <div v-if="isLoggedIn" class="navbar">
       <the-menu class="menu" :menuTitle="menuTitle" :menuItems="menuItems" />
-      <b-icon-person-circle class="person-icon"/>
+      <b-icon-person-circle @click="handleLogout" class="person-icon"/>
     </div>
     <router-view />
   </div>
@@ -28,6 +28,15 @@ export default {
       return this.$store.getters.getMenu;
     }
   },
+  methods:{
+    handleLogout(){
+      let result = window.confirm("確定要登出嗎？");
+      if(result){
+        this.$store.commit("setLoginStatus", false);
+        this.$router.push({name: "Login"});
+      }
+    }
+  }
 };
 </script>
 <style>
@@ -57,6 +66,7 @@ export default {
 
 #app .navbar .person-icon{
   font-size: 3rem;
+  cursor: pointer;
 }
 
 #nav {

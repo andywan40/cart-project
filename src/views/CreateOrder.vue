@@ -81,6 +81,7 @@
 
 <script>
 import { TabulatorComponent } from "vue-tabulator";
+import { v4 as uuid } from "uuid";
 export default {
   name: "CreateOrder",
   components: {
@@ -187,10 +188,13 @@ export default {
             code: this.orderStatus.code,
             type: this.orderStatus.type,
           },
-          date: "還未寄出",
+          date: this.today,
+          id: uuid(),
         };
         let newOrders = [...currentOrders, newOrder];
         this.$store.commit("setOrders", newOrders);
+        this.itemName = "";
+        this.itemLogoLink = "";
         alert("新增成功");
       } catch (e) {
         alert("新增失敗");
@@ -201,41 +205,75 @@ export default {
     },
     addDataToTable() {
       this.table = this.$refs.tabulator.getInstance();
-      this.table.addData({});
+      this.table.addData({ name: "", logo: "", status: 1 });
     },
     handleMultipleOrdersSubmit() {
-      let data = this.table.getData();
-      let newOrders = [];
-      data.forEach((data) => {
-        let status = {};
-        if (data.status === 1) {
-          status = {
-            code: 1,
-            type: "處理中",
+      if (!this.table || this.table.getData().length === 0) {
+        alert("請至少新增一筆訂單");
+        return;
+      }
+      try {
+        let datas = this.table.getData();
+        let newOrders = [];
+        let dataValidated = true;
+        for (let i = 0; i < datas.length; i++) {
+          let data = datas[i];
+          if (!data.name) {
+            dataValidated = false;
+            alert("請輸入商品名稱！");
+            break;
+          }
+          let status = {};
+          if (data.status === 1) {
+            status = {
+              code: 1,
+              type: "處理中",
+            };
+          } else if (data.status === 2) {
+            status = {
+              code: 2,
+              type: "已成立",
+            };
+          } else if (data.status === 3) {
+            status = {
+              code: 3,
+              type: "已取消",
+            };
+          } else if (data.status === 4) {
+            status = {
+              code: 4,
+              type: "已送達",
+            };
+          }
+          let newOrder = {
+            ...data,
+            date: this.today,
+            status: status,
+            id: uuid(),
           };
-        } else if (data.status === 2) {
-          status = {
-            code: 2,
-            type: "已成立",
-          };
-        } else if (data.status === 3) {
-          status = {
-            code: 3,
-            type: "已取消",
-          };
-        } else if (data.status === 4) {
-          status = {
-            code: 4,
-            type: "已送達",
-          };
+          newOrders.push(newOrder);
         }
-        let newOrder = { ...data, date: "unknown", status: status };
-        newOrders.push(newOrder);
-      });
-      this.table.clearData();
-      let currentOrders = this.$store.getters.getOrders;
-      let toSubmitOrders = [...currentOrders, ...newOrders];
-        this.$store.commit("setOrders", toSubmitOrders);
+        if (dataValidated) {
+          this.table.clearData();
+          let currentOrders = this.$store.getters.getOrders;
+          let toSubmitOrders = [...currentOrders, ...newOrders];
+          this.$store.commit("setOrders", toSubmitOrders);
+          alert(`新增${newOrders.length}筆訂單成功`);
+        }
+      } catch (e) {
+        console.log(e);
+        alert(`新增訂單失敗`);
+      }
+    },
+  },
+  computed: {
+    today() {
+      let today = new Date();
+      let dd = String(today.getDate()).padStart(2, "0");
+      let mm = String(today.getMonth() + 1).padStart(2, "0");
+      let yyyy = today.getFullYear() - 1911;
+      today = `${yyyy}/${mm}/${dd}`;
+      return today;
     },
   },
 };

@@ -5,6 +5,7 @@
         class="logo-img"
         :class="{ 'completed-logo': !inprogress }"
         :src="logo"
+        alt="無資料"
       />
     </div>
     <div class="div-2">
@@ -16,7 +17,7 @@
       </div>
       <p>{{ name }}</p>
     </div>
-    <div class="div-3">
+    <div v-if="inprogress" class="div-3" @click="handleCancelOrder">
         <b-icon-chevron-right class="chevron-right-icon"/>
     </div>
   </div>
@@ -34,6 +35,7 @@ export default {
       date: this.item.date,
       name: this.item.name,
       logo: this.item.logo,
+      id: this.item.id
     };
   },
   computed: {
@@ -41,6 +43,24 @@ export default {
       return this.status === "inprogress";
     },
   },
+  methods:{
+      handleCancelOrder(){
+          let result = window.confirm("確定要取消訂單嗎？");
+          if (result){
+              let orders = this.$store.getters.getOrders;
+              for (let i =0; i < orders.length; i ++){
+                  if (orders[i].id === this.id){
+                      orders[i].status.type = "已取消";
+                      orders[i].status.code = 3;
+                      break;
+                  }
+                  
+              }
+              this.$store.commit("setOrders", orders);
+          }
+          
+      }
+  }
 };
 </script>
 <style>
@@ -76,6 +96,7 @@ export default {
 
 .orderstatuscard .div-3 .chevron-right-icon{
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .orderstatuscard .div-2 .span-div {

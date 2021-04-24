@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { v4 as uuid } from "uuid";
 export default {
   name: "Login",
   data() {
@@ -73,7 +74,13 @@ export default {
         this.$router.push({ name: "Home" });
         this.$store.commit("setLoginStatus", true);
         this.$store.commit("setMenu", this.menu);
-        this.$store.commit("setOrders", this.orders);
+        let oldOrders = this.$store.getters.getOrders;
+        if (oldOrders.length === 0) {
+          this.orders.forEach((order) => {
+            order.id = uuid();
+          });
+          this.$store.commit("setOrders", this.orders);
+        }
       } else {
         alert("帳號或密碼錯誤！");
       }
