@@ -12,9 +12,13 @@
     <div class="b-card-group-div">
       <b-card-group v-if="showInProgress" class="card-group">
         <b-card no-body :header="header1">
+          <b-button @click="handleUpdateStatus" variant="outline-warning" size="sm" class="update-button">
+            {{updateButtonText}}<b-icon-pencil-square class="pencil-icon"></b-icon-pencil-square
+          ></b-button>
+
           <b-list-group flush>
             <b-list-group-item v-for="item in inProgressItems" :key="item.id">
-              <order-status-card :item="item" status="inprogress" />
+              <order-status-card :item="item" :status="inProgressItemsStatus" />
             </b-list-group-item>
           </b-list-group>
         </b-card>
@@ -48,6 +52,8 @@ export default {
         { text: "進行中", value: "inprogress" },
         { text: "已完成", value: "completed" },
       ],
+      inProgressItemsStatus: "inprogress",
+      updateButtonText: "更新狀態"
     };
   },
   computed: {
@@ -68,10 +74,10 @@ export default {
         }
       });
       items.sort((a, b) => {
-          let aDate = new Date(a.date);
-          let bDate = new Date(b.date);
-          return bDate - aDate;
-      })
+        let aDate = new Date(a.date);
+        let bDate = new Date(b.date);
+        return bDate - aDate;
+      });
       return items;
     },
     completedItems() {
@@ -87,6 +93,29 @@ export default {
       return this.$store.getters.getOrders;
     },
   },
+  methods: {
+    handleUpdateStatus(){
+      if(this.inProgressItemsStatus === "inprogress"){
+        this.inProgressItemsStatus = "editing";
+        this.updateButtonText = "取消訂單";
+      }else{
+        this.inProgressItemsStatus = "inprogress";
+        this.updateButtonText = "更新狀態";
+        this.cancelOrders(this.$store.getters.getToCancelOrders);
+        this.$store.commit("setToCancelOrders", []);
+      }
+    },
+    cancelOrders(ids){
+      for(let i = 0; i < this.orders.length; i++){
+        if (ids.includes(this.orders[i].id) ){
+          this.orders[i].status= {
+            type: "已取消",
+            code: 3
+          };
+        }
+      }
+    }
+  }
 };
 </script>
 <style>
@@ -137,5 +166,15 @@ export default {
 .orderquery .list-group-item {
   padding: 0;
   height: 8rem;
+}
+
+.update-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pencil-icon{
+  margin-left: 0.3rem;
 }
 </style>

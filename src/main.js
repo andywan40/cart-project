@@ -3,7 +3,8 @@ import {
   BootstrapVue,
   BIconPersonCircle,
   BIconChevronRight,
-  BIconPlusCircleFill
+  BIconPlusCircleFill,
+  BIconPencilSquare
 } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -16,8 +17,7 @@ Vue.use(BootstrapVue);
 Vue.component("BIconPersonCircle", BIconPersonCircle);
 Vue.component("BIconChevronRight", BIconChevronRight);
 Vue.component("BIconPlusCircleFill", BIconPlusCircleFill);
-
-
+Vue.component("BIconPencilSquare", BIconPencilSquare);
 
 Vue.config.productionTip = false;
 

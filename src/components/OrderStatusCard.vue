@@ -10,15 +10,22 @@
     </div>
     <div class="div-2">
       <div class="span-div">
-        <span class="span-1" :class="{ 'in-progress-span': inprogress }">{{
+        <span class="span-1" :class="{ 'in-progress-span': inprogress || editing }">{{
           type
         }}</span>
-        <span v-if="inprogress" class="span-2">預計出貨：{{ date }}</span>
+        <span v-if="inprogress || editing" class="span-2">預計出貨：{{ date }}</span>
       </div>
       <p>{{ name }}</p>
     </div>
-    <div v-if="inprogress" class="div-3" @click="handleCancelOrder">
-        <b-icon-chevron-right class="chevron-right-icon"/>
+    <div v-if="inprogress" class="div-3">
+      <b-icon-chevron-right class="chevron-right-icon" />
+    </div>
+    <div v-if="editing" class="div-3">
+      <b-form-checkbox
+        :id="id"
+        v-model="cancelStatus"
+        @change="handleCheckboxClick"
+      />
     </div>
   </div>
 </template>
@@ -31,36 +38,38 @@ export default {
   },
   data() {
     return {
+      code: this.item.status.code,
       type: this.item.status.type,
       date: this.item.date,
       name: this.item.name,
       logo: this.item.logo,
-      id: this.item.id
+      id: this.item.id,
+      cancelStatus: false
     };
   },
   computed: {
     inprogress() {
       return this.status === "inprogress";
     },
+    editing() {
+      return this.status === "editing";
+    },
+    toCancelOrdersId(){
+      return this.$store.getters.getToCancelOrders;
+    }
   },
-  methods:{
-      handleCancelOrder(){
-          let result = window.confirm("確定要取消訂單嗎？");
-          if (result){
-              let orders = this.$store.getters.getOrders;
-              for (let i =0; i < orders.length; i ++){
-                  if (orders[i].id === this.id){
-                      orders[i].status.type = "已取消";
-                      orders[i].status.code = 3;
-                      break;
-                  }
-                  
-              }
-              this.$store.commit("setOrders", orders);
-          }
-          
+  methods: {
+    handleCheckboxClick(){
+      if(this.cancelStatus){
+        this.toCancelOrdersId.push(this.id); 
+      }else{
+        this.toCancelOrdersId.filter( id => {
+          return id !== this.id
+        })
       }
-  }
+      this.$store.commit("setToCancelOrders", this.toCancelOrdersId);
+    }
+  },
 };
 </script>
 <style>
@@ -95,9 +104,8 @@ export default {
   cursor: pointer;
 }
 
-.orderstatuscard .div-3 .chevron-right-icon{
+.orderstatuscard .div-3 .chevron-right-icon {
   font-size: 1.5rem;
-  
 }
 
 .orderstatuscard .div-2 .span-div {

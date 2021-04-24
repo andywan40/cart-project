@@ -16,14 +16,15 @@ const store = new Vuex.Store({
     isLoggedIn: false,
     menu: [],
     orders: [],
+    toCancelOrders: [],
   },
   mutations: {
     setUsername(state, payload) {
       state.username = payload;
     },
     setPassword(state, payload) {
-        state.password = payload;
-      },
+      state.password = payload;
+    },
     setLoginStatus(state, payload) {
       state.isLoggedIn = payload;
     },
@@ -31,16 +32,19 @@ const store = new Vuex.Store({
       state.menu = payload;
     },
     setOrders(state, payload) {
-        state.orders = payload;
-      },
+      state.orders = payload;
+    },
+    setToCancelOrders(state, payload) {
+      state.toCancelOrders = payload;
+    },
   },
   getters: {
     getUsername(state) {
       return state.username;
     },
     getPassword(state) {
-        return state.password;
-      },
+      return state.password;
+    },
     getLoginStatus(state) {
       return state.isLoggedIn;
     },
@@ -48,8 +52,11 @@ const store = new Vuex.Store({
       return state.menu;
     },
     getOrders(state) {
-        return state.orders;
-      },
+      return state.orders;
+    },
+    getToCancelOrders(state) {
+      return state.toCancelOrders;
+    },
   },
 });
 
