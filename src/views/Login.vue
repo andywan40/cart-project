@@ -6,7 +6,7 @@
         <input placeholder="輸入帳號" type="username" v-model="username" />
         <input placeholder="輸入密碼" type="password" v-model="password" />
         <div class="login-button-div">
-          <button type="submit">Login</button>
+          <button class="login-button" type="submit">Login</button>
         </div>
       </form>
     </div>
@@ -71,7 +71,6 @@ export default {
         this.username === "andywan40@gmail.com" &&
         this.password === "12345"
       ) {
-        this.$router.push({ name: "Home" });
         this.$store.commit("setLoginStatus", true);
         this.$store.commit("setMenu", this.menu);
         let oldOrders = this.$store.getters.getOrders;
@@ -81,23 +80,14 @@ export default {
           });
           this.$store.commit("setOrders", this.orders);
         }
+        this.$router.push({ name: "Home" });
       } else {
         alert("帳號或密碼錯誤！");
       }
       this.username = "";
       this.password = "";
     },
-  },
-  //   beforeRouteEnter(from, to, next){
-  //       if (this.$store.getters.getLoginStatus){
-  //           this.$router.push({name: "Home"})
-  //       }else{
-  //           next();
-  //       }
-  //   },
-  //   created(){
-  //     this.$store.commit("setLoginStatus", false);
-  //   }
+  }
 };
 </script>
 <style>
@@ -141,15 +131,22 @@ export default {
 
 .login-button-div {
   min-width: 70%;
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* TODO */
-.login button {
+.login-button-div .login-button{
   margin-top: 2.5rem;
   border-radius: 5px;
   background-color: rgb(56, 56, 56);
   color: #fff;
   width: 30%;
   height: 55px;
+  font-weight: 600;
+}
+
+.login-button-div .login-button:hover{
+  background-color: rgb(22, 20, 20);
+  box-shadow: 1px 1px 1px rgb(17, 15, 15);
 }
 </style>

@@ -24,7 +24,7 @@ const routes = [
     path: '/cartproject/createorder',
     name: 'CreateOrder',
     component: () => import('../views/CreateOrder.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({
@@ -33,38 +33,16 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     let isLoggedIn = store.getters.getLoginStatus;
-//     let accessLogin = false;
-//     if (to.name === "Login" && !isLoggedIn ){
-//         accessLogin = true;
-//         return next({name: "Login"});
-//     }
-//     if (to.name === "Login" && isLoggedIn){
-//         return next({name: "Home"});
-//     }
-
-//     if ( !isLoggedIn ){
-//         return next({name: "Login"})
-//     }else{
-//         return next();
-//     }
-
-
-
-
-
-    // if (to.name !== "Login" && !isLoggedIn){
-    //     return next({name: "Login"})
-    // } else if (to.name === "Login" && isLoggedIn) {
-    //   // Redirect user to homepage
-    //   return next({path: '/'})
-    // }else if ( to.name === "Login" && !isLoggedIn){
-    //     return next({name: "Login"})
-    // }  
-    // // Let the user pass
+ router.beforeEach((to, from, next) => {
+     if(to.matched.length === 0){
+         next({name: 'Home'});
+     }
+     let isLoggedIn = store.getters.getLoginStatus;
+     if (to.name !== 'Login' && !isLoggedIn) next({ name: 'Login' })
+     else if (to.name === "Login" && isLoggedIn) next({name: 'Home'})
+     else next()
     
-// })
+})
     
 
 
