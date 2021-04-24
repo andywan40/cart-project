@@ -28,7 +28,7 @@ export default {
         this.username === "andywan40@gmail.com" &&
         this.password === "12345"
       ) {
-        this.$router.push({name: "Home"});
+        this.$router.push({ name: "Home" });
         this.$store.commit("setLoginStatus", true);
         this.$store.commit("setMenu", [
           { text: "訂單查詢", link: "/cartproject/orderquery" },
@@ -41,9 +41,16 @@ export default {
       this.password = "";
     },
   },
-  created(){
-    this.$store.commit("setLoginStatus", false);
-  }
+  //   beforeRouteEnter(from, to, next){
+  //       if (this.$store.getters.getLoginStatus){
+  //           this.$router.push({name: "Home"})
+  //       }else{
+  //           next();
+  //       }
+  //   },
+  //   created(){
+  //     this.$store.commit("setLoginStatus", false);
+  //   }
 };
 </script>
 <style>

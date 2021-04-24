@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import store from '../store/store'
 
 Vue.use(VueRouter)
 
@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/cartproject',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/cartproject/login',
@@ -32,5 +32,40 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//     let isLoggedIn = store.getters.getLoginStatus;
+//     let accessLogin = false;
+//     if (to.name === "Login" && !isLoggedIn ){
+//         accessLogin = true;
+//         return next({name: "Login"});
+//     }
+//     if (to.name === "Login" && isLoggedIn){
+//         return next({name: "Home"});
+//     }
+
+//     if ( !isLoggedIn ){
+//         return next({name: "Login"})
+//     }else{
+//         return next();
+//     }
+
+
+
+
+
+    // if (to.name !== "Login" && !isLoggedIn){
+    //     return next({name: "Login"})
+    // } else if (to.name === "Login" && isLoggedIn) {
+    //   // Redirect user to homepage
+    //   return next({path: '/'})
+    // }else if ( to.name === "Login" && !isLoggedIn){
+    //     return next({name: "Login"})
+    // }  
+    // // Let the user pass
+    
+// })
+    
+
 
 export default router
