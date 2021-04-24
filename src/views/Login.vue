@@ -67,10 +67,9 @@ export default {
   },
   methods: {
     handleFormSubmit() {
-      if (
-        this.username === "andywan40@gmail.com" &&
-        this.password === "12345"
-      ) {
+      let username = this.$store.getters.getUsername;
+      let password = this.$store.getters.getPassword;
+      if (this.username === username && +this.password === password) {
         this.$store.commit("setLoginStatus", true);
         this.$store.commit("setMenu", this.menu);
         let oldOrders = this.$store.getters.getOrders;
@@ -87,7 +86,7 @@ export default {
       this.username = "";
       this.password = "";
     },
-  }
+  },
 };
 </script>
 <style>
@@ -135,7 +134,7 @@ export default {
   justify-content: flex-end;
 }
 
-.login-button-div .login-button{
+.login-button-div .login-button {
   margin-top: 2.5rem;
   border-radius: 5px;
   background-color: rgb(56, 56, 56);
@@ -145,7 +144,7 @@ export default {
   font-weight: 600;
 }
 
-.login-button-div .login-button:hover{
+.login-button-div .login-button:hover {
   background-color: rgb(22, 20, 20);
   box-shadow: 1px 1px 1px rgb(17, 15, 15);
 }

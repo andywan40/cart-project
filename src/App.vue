@@ -1,23 +1,18 @@
 <template>
   <div id="app" :class="{ 'login-page': !isLoggedIn }">
-    <div v-if="isLoggedIn" class="navbar">
-      <the-menu class="menu" :menuTitle="menuTitle" :menuItems="menuItems" />
-      <b-icon-person-circle @click="handleLogout" class="person-icon"/>
-    </div>
+    <the-navbar v-if="isLoggedIn" class="navbar"/>
     <router-view />
   </div>
 </template>
 <script>
-import TheMenu from "./components/TheMenu.vue";
-
+import TheNavbar from "./components/TheNavbar.vue";
 export default {
   name: "Home",
   components: {
-    TheMenu,
+    TheNavbar
   },
   data() {
     return {
-      menuTitle: "訂單管理",
     };
   },
   computed:{
@@ -26,15 +21,6 @@ export default {
     },
     menuItems(){
       return this.$store.getters.getMenu;
-    }
-  },
-  methods:{
-    handleLogout(){
-      let result = window.confirm("確定要登出嗎？");
-      if(result){
-        this.$store.commit("setLoginStatus", false);
-        this.$router.push({name: "Login"});
-      }
     }
   }
 };
@@ -56,29 +42,4 @@ export default {
   height: 100vh;
 }
 
-#app .navbar{
-  display: flex;
-  justify-content: space-between;
-  padding-top: 1rem;
-  padding-left: 1rem;
-  background-color: rgb(230, 247, 253);
-}
-
-#app .navbar .person-icon{
-  font-size: 3rem;
-  cursor: pointer;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

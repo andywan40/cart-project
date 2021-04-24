@@ -4,7 +4,7 @@
       <h1 class="title">新增訂單</h1>
       <b-icon-plus-circle-fill id="tooltip-target-icon" @click="showTable" />
       <b-tooltip target="tooltip-target-icon" triggers="hover">
-        新增多筆
+        {{tooltipText}}
       </b-tooltip>
     </div>
     <b-container fluid class="container">
@@ -89,6 +89,7 @@ export default {
   },
   data() {
     return {
+      tooltipText: "多筆新增",
       itemNameText: "商品名稱",
       itemName: "",
       itemLogoLinkText: "圖示連結",
@@ -201,7 +202,13 @@ export default {
       }
     },
     showTable() {
-      this.displayTable = true;
+      if (!this.displayTable){
+        this.tooltipText = "單筆新增"
+      }else{
+        this.tooltipText = "多筆新增"
+      }
+      this.displayTable = !this.displayTable;
+      
     },
     addDataToTable() {
       this.table = this.$refs.tabulator.getInstance();

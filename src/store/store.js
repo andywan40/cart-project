@@ -11,15 +11,19 @@ const store = new Vuex.Store({
     }),
   ],
   state: {
-    user: "",
+    username: "andywan40@gmail.com",
+    password: 12345,
     isLoggedIn: false,
     menu: [],
     orders: [],
   },
   mutations: {
-    setUser(state, payload) {
-      state.user = payload;
+    setUsername(state, payload) {
+      state.username = payload;
     },
+    setPassword(state, payload) {
+        state.password = payload;
+      },
     setLoginStatus(state, payload) {
       state.isLoggedIn = payload;
     },
@@ -31,9 +35,12 @@ const store = new Vuex.Store({
       },
   },
   getters: {
-    getUser(state) {
-      return state.user;
+    getUsername(state) {
+      return state.username;
     },
+    getPassword(state) {
+        return state.password;
+      },
     getLoginStatus(state) {
       return state.isLoggedIn;
     },

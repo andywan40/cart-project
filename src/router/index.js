@@ -25,6 +25,11 @@ const routes = [
     name: 'CreateOrder',
     component: () => import('../views/CreateOrder.vue')
   },
+  {
+    path: '/cartproject/personalinfo',
+    name: 'PersonalInfo',
+    component: () => import('../views/PersonalInfo.vue')
+  },
 ]
 
 const router = new VueRouter({
