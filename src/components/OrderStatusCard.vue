@@ -145,4 +145,18 @@ export default {
   height: 5rem;
   filter: grayscale(100%);
 }
+
+
+@media only screen and (max-width: 700px) {
+  body {
+    background-color: lightblue;
+  }
+  .orderstatuscard .div-2, .orderstatuscard .div-2 p {
+    font-size: 0.8rem;
+  }
+  .orderstatuscard .logo-img, .orderstatuscard .logo-img.completed-logo{
+    width: 4rem;
+    height: 4rem;
+  }
+}
 </style>

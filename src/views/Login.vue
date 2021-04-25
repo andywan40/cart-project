@@ -126,6 +126,7 @@ export default {
   border-radius: 3px;
   min-width: 70%;
   min-height: 40px;
+  padding: 5px;
 }
 
 .login-button-div {

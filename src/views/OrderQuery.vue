@@ -12,8 +12,14 @@
     <div class="b-card-group-div">
       <b-card-group v-if="showInProgress" class="card-group">
         <b-card no-body :header="header1">
-          <b-button @click="handleUpdateStatus" variant="outline-warning" size="sm" class="update-button">
-            {{updateButtonText}}<b-icon-pencil-square class="pencil-icon"></b-icon-pencil-square
+          <b-button
+            @click="handleUpdateStatus"
+            variant="outline-warning"
+            size="sm"
+            class="update-button"
+          >
+            {{ updateButtonText
+            }}<b-icon-pencil-square class="pencil-icon"></b-icon-pencil-square
           ></b-button>
 
           <b-list-group flush>
@@ -53,7 +59,7 @@ export default {
         { text: "已完成", value: "completed" },
       ],
       inProgressItemsStatus: "inprogress",
-      updateButtonText: "更新狀態"
+      updateButtonText: "更新狀態",
     };
   },
   computed: {
@@ -94,28 +100,28 @@ export default {
     },
   },
   methods: {
-    handleUpdateStatus(){
-      if(this.inProgressItemsStatus === "inprogress"){
+    handleUpdateStatus() {
+      if (this.inProgressItemsStatus === "inprogress") {
         this.inProgressItemsStatus = "editing";
         this.updateButtonText = "取消訂單";
-      }else{
+      } else {
         this.inProgressItemsStatus = "inprogress";
         this.updateButtonText = "更新狀態";
         this.cancelOrders(this.$store.getters.getToCancelOrders);
         this.$store.commit("setToCancelOrders", []);
       }
     },
-    cancelOrders(ids){
-      for(let i = 0; i < this.orders.length; i++){
-        if (ids.includes(this.orders[i].id) ){
-          this.orders[i].status= {
+    cancelOrders(ids) {
+      for (let i = 0; i < this.orders.length; i++) {
+        if (ids.includes(this.orders[i].id)) {
+          this.orders[i].status = {
             type: "已取消",
-            code: 3
+            code: 3,
           };
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
@@ -153,7 +159,7 @@ export default {
 }
 
 .orderquery .card-group {
-  width: 40vw;
+  width: 50vw;
 }
 
 .orderquery .card-header {
@@ -168,13 +174,25 @@ export default {
   height: 8rem;
 }
 
-.update-button{
+.update-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.pencil-icon{
+.pencil-icon {
   margin-left: 0.3rem;
+}
+
+@media only screen and (max-width: 1000px) {
+  .orderquery .card-group {
+    width: 60vw;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .orderquery .card-group {
+    width: 70vw;
+  }
 }
 </style>
