@@ -4,7 +4,7 @@
       <h1 class="title">新增訂單</h1>
       <b-icon-plus-circle-fill id="tooltip-target-icon" @click="showTable" />
       <b-tooltip target="tooltip-target-icon" triggers="hover">
-        {{tooltipText}}
+        {{ tooltipText }}
       </b-tooltip>
     </div>
     <b-container fluid class="container">
@@ -202,13 +202,12 @@ export default {
       }
     },
     showTable() {
-      if (!this.displayTable){
-        this.tooltipText = "單筆新增"
-      }else{
-        this.tooltipText = "多筆新增"
+      if (!this.displayTable) {
+        this.tooltipText = "單筆新增";
+      } else {
+        this.tooltipText = "多筆新增";
       }
       this.displayTable = !this.displayTable;
-      
     },
     addDataToTable() {
       this.table = this.$refs.tabulator.getInstance();
@@ -323,5 +322,12 @@ export default {
 
 .createorder .tabulator {
   margin-top: 1rem;
+}
+
+@media only screen and (max-width: 700px) {
+  .createorder {
+    width: 70vw;
+    margin: auto auto;
+  }
 }
 </style>

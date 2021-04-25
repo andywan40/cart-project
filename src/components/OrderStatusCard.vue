@@ -3,7 +3,7 @@
     <div class="div-1">
       <img
         class="logo-img"
-        :class="{ 'completed-logo': !inprogress }"
+        :class="{ 'completed-logo': !inprogress && !editing}"
         :src="logo"
         alt="無資料"
       />
@@ -148,9 +148,6 @@ export default {
 
 
 @media only screen and (max-width: 700px) {
-  body {
-    background-color: lightblue;
-  }
   .orderstatuscard .div-2, .orderstatuscard .div-2 p {
     font-size: 0.8rem;
   }
